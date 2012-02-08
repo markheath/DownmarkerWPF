@@ -83,14 +83,17 @@ namespace MarkPad.Document
             if (TryGetHeaderValue(header, "theme", out themeName))
             {
                 var path = Path.Combine(WebCore.BaseDirectory, themeName);
-                foreach(var stylesheet in Directory.GetFiles(path, "*.css"))
+                if (Directory.Exists(path))
                 {
-                    head += String.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/{1}\" />\r\n", themeName, Path.GetFileName(stylesheet));
-                }
+                    foreach (var stylesheet in Directory.GetFiles(path, "*.css"))
+                    {
+                        head += String.Format("<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}/{1}\" />\r\n", themeName, Path.GetFileName(stylesheet));
+                    }
 
-                foreach (var stylesheet in Directory.GetFiles(path, "*.js"))
-                {
-                    scripts += String.Format("<script type=\"text/javascript\" src=\"{0}/{1}\"></script>\r\n", themeName, Path.GetFileName(stylesheet));
+                    foreach (var stylesheet in Directory.GetFiles(path, "*.js"))
+                    {
+                        scripts += String.Format("<script type=\"text/javascript\" src=\"{0}/{1}\"></script>\r\n", themeName, Path.GetFileName(stylesheet));
+                    }
                 }
             }
 
